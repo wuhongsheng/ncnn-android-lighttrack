@@ -222,7 +222,7 @@ class MainActivity : AppCompatActivity() {
         // Choose a suitable preview size
         val previewSize = chooseOptimalSize(previewSizes, textureView.width, textureView.height)
         previewSize?.let {
-            textureView.setAspectRatio(it.width, it.height)
+            textureView.setAspectRatio(it.height, it.width)
             surfaceTexture.setDefaultBufferSize(it.width, it.height)
         }
 
@@ -252,15 +252,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun chooseOptimalSize(choices: Array<Size>, textureViewWidth: Int, textureViewHeight: Int): Size? {
-        val aspectRatio = textureViewWidth.toDouble() / textureViewHeight
+        val aspectRatio = textureViewHeight.toDouble() / textureViewWidth
         Log.i(TAG,"aspectRatio: $aspectRatio")
         var optimalSize: Size? = null
         var minDiff = Double.MAX_VALUE
 
         for (size in choices) {
             Log.i(TAG,size.toString())
+//            val sizeAspectRatio = size.width.toDouble() / size.height
             val sizeAspectRatio = size.width.toDouble() / size.height
-//            val sizeAspectRatio = size.height.toDouble() / size.width
             val diff = Math.abs(sizeAspectRatio - aspectRatio)
             if (diff < minDiff) {
                 optimalSize = size
