@@ -19,15 +19,18 @@ import android.util.Log
 
 
 class LightTrackNcnn {
+    //初始化
     external fun Init(mgr: AssetManager?): Boolean
+    //设置目标 bitmap为当前帧
     external fun SetTemplate(bitmap: Bitmap,obj: Obj):Boolean
+    //跟踪 bitmap为当前帧
     external fun Track(bitmap: Bitmap):Obj?
     val obj = Obj()
     inner class Obj {
-        var x: Float = 0f
-        var y: Float = 0f
-        var w: Float = 0f
-        var h: Float = 0f
+        var x: Float = 0f//起点坐标x
+        var y: Float = 0f//起点坐标y
+        var w: Float = 0f//宽
+        var h: Float = 0f//高
     }
 
     companion object {

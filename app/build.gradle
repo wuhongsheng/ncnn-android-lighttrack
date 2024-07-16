@@ -5,19 +5,16 @@ plugins {
 
 android {
     namespace 'com.zbgd.lighttrack'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.zbgd.lighttrack"
         minSdk 24
-        targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a"
-        }
+
     }
 
     buildTypes {
@@ -33,18 +30,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    externalNativeBuild {
-        cmake {
-            path file('src/main/cpp/CMakeLists.txt')
-            version '3.18.1'
-        }
-    }
     buildFeatures {
         viewBinding true
     }
-//    ndkVersion "21.4.7075529"
-
 }
+
+
 
 dependencies {
 
@@ -55,6 +46,11 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-//    implementation group: 'org.opencv', name: 'opencv', version: '4.9.0'
+
+    implementation project(':lighttrack')
+//    implementation files("libs/lighttrack-debug.aar")
+
+
+
 
 }

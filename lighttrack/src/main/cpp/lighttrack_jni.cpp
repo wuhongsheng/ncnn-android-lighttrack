@@ -183,11 +183,8 @@ Java_com_zbgd_lighttrack_LightTrackNcnn_Track(JNIEnv *env, jobject thiz, jobject
     Mat mat;
     // Convert to OpenCV Mat
     if (info.format == ANDROID_BITMAP_FORMAT_RGBA_8888) {
-//        mat.create(height, width, CV_8UC3);
-//        memcpy(mat.data, pixels, info.height * info.width * 3);
         mat = cv::Mat(info.height, info.width, CV_8UC4, pixels);
         cv::cvtColor(mat, mat, cv::COLOR_BGRA2BGR);
-
     }
 
     // Unlock the bitmap

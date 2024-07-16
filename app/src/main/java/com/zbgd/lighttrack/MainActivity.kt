@@ -32,7 +32,8 @@ import kotlin.math.log
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val lightTrack: LightTrackNcnn = LightTrackNcnn()
+    private val lightTrack:
+            = LightTrackNcnn()
 
     private lateinit var textureView: AutoFitTextureView
     private lateinit var overlayView: OverlayView
@@ -104,13 +105,6 @@ class MainActivity : AppCompatActivity() {
                 var bitmap = textureView.bitmap
                 if (bitmap != null && targetRect != null){
                     Log.i(TAG, "bitmap width: ${bitmap.width}, height: ${bitmap.height}")
-
-//                    val obj = LightTrackNcnn.Obj()
-//                    obj.x = targetRect!!.left.toFloat()
-//                    obj.y = targetRect!!.top.toFloat()
-//                    obj.w = (targetRect!!.right-targetRect!!.left).toFloat()
-//                    obj.h = (targetRect!!.bottom-targetRect!!.top).toFloat()
-//                    lightTrack.SetTemplate(bitmap, obj)
                     hasTarget = lightTrack.setTemplate(bitmap, targetRect!!.left.toFloat(),targetRect!!.top.toFloat(),(targetRect!!.right-targetRect!!.left).toFloat(),(targetRect!!.bottom-targetRect!!.top).toFloat())
                     if (hasTarget){
                         Toast.makeText(this, "设置跟踪目标成功", Toast.LENGTH_SHORT).show()
@@ -292,22 +286,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
-//    private fun loadBitmapFromAssets(context: Context, fileName: String): Bitmap? {
-//        val assetManager = context.assets
-//        var inputStream: InputStream? = null
-//        var bitmap: Bitmap? = null
-//        try {
-//            inputStream = assetManager.open(fileName)
-//            bitmap = BitmapFactory.decodeStream(inputStream)
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//        } finally {
-//            inputStream?.close()
-//        }
-//        return bitmap
-//    }
 
     override fun onPause() {
         super.onPause()

@@ -188,8 +188,7 @@ void LightTrack::update(const cv::Mat &x_crops, float scale_z) {
         cls_score_sigmoid.push_back(sigmoid(cls_score_data[i]));
     }
 
-    std::vector<float> pred_x1(cols * rows, 0), pred_y1(cols * rows, 0), pred_x2(cols * rows, 0), pred_y2(cols * rows,
-                                                                                                          0);
+    std::vector<float> pred_x1(cols * rows, 0), pred_y1(cols * rows, 0), pred_x2(cols * rows, 0), pred_y2(cols * rows,0);
 
     float *bbox_pred_data1 = bbox_pred.channel(0);
     float *bbox_pred_data2 = bbox_pred.channel(1);
