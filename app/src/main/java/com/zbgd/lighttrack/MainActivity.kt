@@ -32,8 +32,7 @@ import kotlin.math.log
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val lightTrack:
-            = LightTrackNcnn()
+    private val lightTrack: LightTrackNcnn = LightTrackNcnn()
 
     private lateinit var textureView: AutoFitTextureView
     private lateinit var overlayView: OverlayView
