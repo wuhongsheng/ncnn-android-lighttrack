@@ -200,6 +200,23 @@ Java_com_zbgd_lighttrack_LightTrackNcnn_Track(JNIEnv *env, jobject thiz, jobject
     LOGI("%.2fms  track", elasped);
     // Boundary judgment.
     cv::Mat track_window;
+    if(rect.x < 0 && rect.x + rect.width > 0) {
+        rect.width += rect.x;
+        rect.x = 0;
+    }
+
+    if(rect.y < 0 && rect.y + rect.height > 0) {
+        rect.height += rect.y;
+        rect.y = 0;
+    }
+
+    if(rect.x + rect.width > width){
+        rect.width = width - rect.x;
+    }
+
+    if(rect.y + rect.height > height){
+        rect.height = height - rect.y;
+    }
     if (0 <= rect.x && 0 <= rect.width && rect.x + rect.width <= width && 0 <= rect.y &&
         0 <= rect.height && rect.y + rect.height <= height) {
         mat(rect).copyTo(track_window);
