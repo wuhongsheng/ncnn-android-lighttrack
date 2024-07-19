@@ -197,6 +197,7 @@ Java_com_zbgd_lighttrack_LightTrackNcnn_Track(JNIEnv *env, jobject thiz, jobject
     cv::Rect rect;
     cxy_wh_2_rect(siam_tracker->target_pos, siam_tracker->target_sz, rect);
     double elasped = ncnn::get_current_time() - start_time;
+    siam_tracker->set_fps(elasped);
     LOGI("%.2fms  track", elasped);
     // Boundary judgment.
     cv::Mat track_window;
@@ -242,6 +243,15 @@ Java_com_zbgd_lighttrack_LightTrackNcnn_Track(JNIEnv *env, jobject thiz, jobject
 
     return NULL;
 
+}
+
+JNIEXPORT jobject JNICALL
+Java_com_zbgd_lighttrack_LightTrackNcnn_GetFPS(JNIEnv *env, jobject thiz){
+    jobject jObj = env->NewObject(objCls, constructortorId, thiz);
+    auto fps = siam_tracker->get_fps();
+    LOGI("Java_com_zbgd_lighttrack_LightTrackNcnn_GetFPS score= %f \n", fps);
+    env->SetFloatField(jObj, xId, static_cast<float>(fps));
+    return jObj;
 }
 
 }

@@ -138,6 +138,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun captureFrame() {
         if (textureView.isAvailable) {
+            overlayView.setFPS("FPS : " + lightTrack.GetFPS()?.x.toString())
             val bitmap = textureView.bitmap
 //            val bitmap = Bitmap.createBitmap(textureView.width, textureView.height, Bitmap.Config.ARGB_8888)
 
@@ -146,6 +147,7 @@ class MainActivity : AppCompatActivity() {
                 if (targetRect != null) {
 //                    var result = lightTrack.setTemplate(bitmap, selectionRect.left.toFloat(),selectionRect.top.toFloat(),(selectionRect.right-selectionRect.left).toFloat(),(selectionRect.bottom-selectionRect.top).toFloat())
                     if (hasTarget){
+
                         var r = lightTrack.Track(bitmap)
                         if (r != null) {
                             Log.i(TAG, "x: ${r.x}, y: ${r.y}, w: ${r.w}, h: ${r.h}")

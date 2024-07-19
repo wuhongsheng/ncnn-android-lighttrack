@@ -23,6 +23,7 @@ class LightTrackNcnn {
     external fun Init(mgr: AssetManager?): Boolean
     //设置目标 bitmap为当前帧
     external fun SetTemplate(bitmap: Bitmap,obj: Obj):Boolean
+    external fun GetFPS(): Obj?
     //跟踪 bitmap为当前帧
     external fun Track(bitmap: Bitmap):Obj?
     val obj = Obj()
@@ -32,6 +33,7 @@ class LightTrackNcnn {
         var w: Float = 0f//宽
         var h: Float = 0f//高
     }
+
 
     companion object {
         init {
