@@ -245,13 +245,9 @@ Java_com_zbgd_lighttrack_LightTrackNcnn_Track(JNIEnv *env, jobject thiz, jobject
 
 }
 
-JNIEXPORT jobject JNICALL
+JNIEXPORT jfloat JNICALL
 Java_com_zbgd_lighttrack_LightTrackNcnn_GetFPS(JNIEnv *env, jobject thiz){
-    jobject jObj = env->NewObject(objCls, constructortorId, thiz);
-    auto fps = siam_tracker->get_fps();
-    LOGI("Java_com_zbgd_lighttrack_LightTrackNcnn_GetFPS score= %f \n", fps);
-    env->SetFloatField(jObj, xId, static_cast<float>(fps));
-    return jObj;
+    return siam_tracker->get_fps();
 }
 
 }

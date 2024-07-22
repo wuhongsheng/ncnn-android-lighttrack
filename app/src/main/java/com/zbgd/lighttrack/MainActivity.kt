@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun captureFrame() {
         if (textureView.isAvailable) {
-            overlayView.setFPS("FPS : " + lightTrack.GetFPS()?.x.toString())
+            overlayView.setFPS("FPS : " + lightTrack.GetFPS().toString())
             val bitmap = textureView.bitmap
 //            val bitmap = Bitmap.createBitmap(textureView.width, textureView.height, Bitmap.Config.ARGB_8888)
 
