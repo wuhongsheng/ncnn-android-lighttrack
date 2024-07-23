@@ -40,6 +40,9 @@ public:
     void init(const uint8_t *img, Bbox &box, int im_h , int im_w);
     void track(const uint8_t *img);
 
+    void set_fps(float elasped);
+    float get_fps();
+
     cv::Point target_pos = {0, 0};
     cv::Point2f target_sz = {0.f, 0.f};
 
@@ -65,6 +68,7 @@ private:
     int ori_img_w = 960;
     int ori_img_h = 640;
 
+    float fps_history[11] = {0.f};
 
     void grids();
 

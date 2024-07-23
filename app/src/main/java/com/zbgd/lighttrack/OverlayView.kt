@@ -25,6 +25,19 @@ class OverlayView @JvmOverloads constructor(
         style = Paint.Style.STROKE
         strokeWidth = 5f
     }
+
+    private val paintFPS = Paint().apply {
+        color = 0xFFFF0000.toInt() // Red color
+        style = Paint.Style.FILL
+        textSize = 100f
+    }
+
+    private val paintFPSback = Paint().apply {
+        color = 0xFFFFFFFF.toInt() // Red color
+        style = Paint.Style.FILL
+        textSize = 100f
+    }
+
     private var startX = 0f
     private var startY = 0f
     private var endX = 0f
@@ -32,6 +45,7 @@ class OverlayView @JvmOverloads constructor(
     private var drawing = false
     private var selectionRect: Rect? = null
     private var trackRect: Rect? = null
+    private var FPS: String = ""
 
 
 
@@ -81,6 +95,9 @@ class OverlayView @JvmOverloads constructor(
         } else if (drawing) {
             canvas.drawRect(startX, startY, endX, endY, paint)
         }
+
+        if(FPS == "") canvas.drawText(FPS, 500f, 100f, paintFPS)
+        else canvas.drawText(FPS, 500f, 100f, paintFPS)
     }
 
     fun getSelectionRect(): Rect? {
@@ -94,6 +111,10 @@ class OverlayView @JvmOverloads constructor(
 
     fun setTrackRect(rect: Rect) {
         trackRect = rect
+        invalidate()
+    }
+    fun setFPS(fps: String) {
+        FPS = fps
         invalidate()
     }
 

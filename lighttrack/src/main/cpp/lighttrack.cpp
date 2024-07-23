@@ -4,6 +4,42 @@
 #include "LightTrack.h"
 #include "timer.h"
 
+void LightTrack::set_fps(float elasped) {
+    float fps = 1000.f / elasped;
+    for (int i = 9; i >= 1; i--)
+    {
+        fps_history[i] = fps_history[i - 1];
+    }
+    fps_history[0] = fps;
+    fps_history[10]++;
+}
+
+float LightTrack::get_fps()
+{
+    float avg_fps = 0.f;
+
+    if(fps_history[10] == 0) return 0;
+
+    if (fps_history[9] == 0.f)
+    {
+        for (int i = 0; i < fps_history[10]; i++)
+        {
+            avg_fps += fps_history[i];
+        }
+        avg_fps /= fps_history[10];
+
+        return avg_fps;
+    }
+
+    for (int i = 0; i < 10; i++)
+    {
+        avg_fps += fps_history[i];
+    }
+    avg_fps /= 10.f;
+
+    return avg_fps;
+}
+
 inline float fast_exp(float x) {
     union {
         uint32_t i;
