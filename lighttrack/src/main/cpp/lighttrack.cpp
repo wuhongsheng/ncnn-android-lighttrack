@@ -156,7 +156,9 @@ void LightTrack::init(const uint8_t *img, Bbox &box, int im_h , int im_w) {
 
     // net init
     net_init.opt = opt;
+//    net_init.set_vulkan_device(0);
     net_update.opt = opt;
+//    net_update.set_vulkan_device(0);
     ncnn::Extractor ex_init = net_init.create_extractor();
 //    ex_init.set_light_mode(true);
 //    ex_init.set_num_threads(6);
