@@ -66,6 +66,7 @@ static jfieldID wId;
 static jfieldID hId;
 static LightTrack* siam_tracker;
 static cv::Mat init_window;
+static cv::Rect last_rect;
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     LOGI("JNI_OnLoad");
@@ -225,17 +226,22 @@ Java_com_zbgd_lighttrack_LightTrackNcnn_Track(JNIEnv *env, jobject thiz, jobject
         double score = compareHist(init_window, track_window);
         LOGI("Similarity score= %f \n", score);
         // 相似度大于0.5的情况才进行矩形框标注
-        if (score > 0.4){
+        if (score > 0.5){
             // Draw rect.
             //cv::rectangle(mat, rect, cv::Scalar(0, 255, 0));
-
+            last_rect = rect;
             jobject jObj = env->NewObject(objCls, constructortorId, thiz);
-
             env->SetFloatField(jObj, xId, static_cast<float >(rect.x));
             env->SetFloatField(jObj, yId, static_cast<float >(rect.y));
             env->SetFloatField(jObj, wId, static_cast<float >(rect.width));
             env->SetFloatField(jObj, hId, static_cast<float >(rect.height));
             return jObj;
+        }else{
+            LOGI("target out of range \n");
+            siam_tracker->target_pos.x = last_rect.x;
+            siam_tracker->target_pos.y = last_rect.y;
+            siam_tracker->target_sz.x = float(last_rect.width);
+            siam_tracker->target_sz.y = float(last_rect.height);
         }
         return NULL;
     }
