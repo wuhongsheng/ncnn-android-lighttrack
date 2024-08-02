@@ -19,14 +19,14 @@ import android.view.Surface
 import android.view.TextureView
 import android.view.View
 import android.widget.Button
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.zbgd.lighttrack.databinding.ActivityMainBinding
-import java.util.Collections
-import kotlin.math.abs
-import kotlin.math.log
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var textureView: AutoFitTextureView
     private lateinit var overlayView: OverlayView
+    private lateinit var seekBar: SeekBar
+    private lateinit var tvThreshold: TextView
+
     private lateinit var btnSetTarget: Button
     private lateinit var btnTrack: Button
     private lateinit var cameraDevice: CameraDevice
@@ -67,6 +70,8 @@ class MainActivity : AppCompatActivity() {
         overlayView = findViewById(R.id.overlayView)
         btnSetTarget = findViewById(R.id.btnSetTarget)
         btnTrack = findViewById(R.id.btnTrack)
+        seekBar = findViewById(R.id.seekBar)
+        tvThreshold = findViewById(com.zbgd.lighttrack.R.id.tv_threshold)
         var r = lightTrack.Init(assets)
         if (r){
             Log.i(TAG, "lightTrack init successfully")
@@ -77,6 +82,24 @@ class MainActivity : AppCompatActivity() {
 
         cameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
         cameraId = cameraManager.cameraIdList[0]
+        seekBar.setProgress(30)
+        seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                var variable = progress / 100.0f;
+//                Log.i(TAG, "lightTrack init successfully ${variable}")
+                lightTrack.SetSimilarityThreshold(variable)
+                tvThreshold.setText(variable.toString())
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // 可以在这里处理滑块开始滑动的事件
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // 可以在这里处理滑块停止滑动的事件
+            }
+        })
 
         textureView.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
             override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {

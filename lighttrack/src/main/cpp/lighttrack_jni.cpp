@@ -1,6 +1,7 @@
 #include <android/asset_manager_jni.h>
 #include <android/bitmap.h>
 #include <jni.h>
+#include <pthread.h>
 #include <string>
 
 #include "LightTrack.h"
@@ -67,6 +68,9 @@ static jfieldID hId;
 static LightTrack* siam_tracker;
 static cv::Mat init_window;
 static cv::Rect last_rect;
+static float similarity_threshold = 0.3;
+static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     LOGI("JNI_OnLoad");
@@ -226,7 +230,10 @@ Java_com_zbgd_lighttrack_LightTrackNcnn_Track(JNIEnv *env, jobject thiz, jobject
         double score = compareHist(init_window, track_window);
         LOGI("Similarity score= %f \n", score);
         // 相似度大于0.5的情况才进行矩形框标注
-        if (score > 0.5){
+        pthread_mutex_lock(&lock);
+        float threshold = similarity_threshold;
+        pthread_mutex_unlock(&lock);
+        if (score > threshold){
             // Draw rect.
             //cv::rectangle(mat, rect, cv::Scalar(0, 255, 0));
             last_rect = rect;
@@ -244,6 +251,11 @@ Java_com_zbgd_lighttrack_LightTrackNcnn_Track(JNIEnv *env, jobject thiz, jobject
             siam_tracker->target_sz.y = float(last_rect.height);
         }
         return NULL;
+    } else{
+        siam_tracker->target_pos.x = last_rect.x;
+        siam_tracker->target_pos.y = last_rect.y;
+        siam_tracker->target_sz.x = float(last_rect.width);
+        siam_tracker->target_sz.y = float(last_rect.height);
     }
     LOGI("Target not in range");
 
@@ -254,6 +266,15 @@ Java_com_zbgd_lighttrack_LightTrackNcnn_Track(JNIEnv *env, jobject thiz, jobject
 JNIEXPORT jfloat JNICALL
 Java_com_zbgd_lighttrack_LightTrackNcnn_GetFPS(JNIEnv *env, jobject thiz){
     return siam_tracker->get_fps();
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_zbgd_lighttrack_LightTrackNcnn_SetSimilarityThreshold(JNIEnv *env, jobject thiz, jfloat threshold){
+    LOGI("set similarity_threshold %f \n",threshold);
+    pthread_mutex_lock(&lock);
+    similarity_threshold = threshold;
+    pthread_mutex_unlock(&lock);
+    return JNI_TRUE;
 }
 
 }
