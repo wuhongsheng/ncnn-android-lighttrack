@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.zbgd.lighttrack'
+    namespace 'com.rs.lighttrack'
     compileSdk 34
 
     defaultConfig {
