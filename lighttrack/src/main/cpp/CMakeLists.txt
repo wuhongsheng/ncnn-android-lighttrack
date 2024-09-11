@@ -29,7 +29,7 @@ add_library( # Sets the name of the library.
         # Sets the library as a shared library.
         SHARED
         # Provides a relative path to your source file(s).
-        ${CMAKE_SOURCE_DIR}/lightTrack.cpp
+        ${CMAKE_SOURCE_DIR}/lighttrack.cpp
         ${CMAKE_SOURCE_DIR}/lighttrack_jni.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
