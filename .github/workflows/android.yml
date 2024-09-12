@@ -3,6 +3,8 @@ name: Android CI
 on:
   push:
     branches: [ "main" ]
+    tags:
+      - 'v*'
   pull_request:
     branches: [ "main" ]
 
@@ -37,7 +39,7 @@ jobs:
          name: debug-apk
          path: ${{ steps.debugApk.outputs.apkfile }}
     - name: Download APK from build
-      uses: actions/download-artifact@v1
+      uses: actions/download-artifact@v4
       with:
          name: apk
     - name: Create Release
