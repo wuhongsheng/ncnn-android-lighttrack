@@ -34,5 +34,10 @@ jobs:
     - name: Upload Release Build to Artifacts
       uses: actions/upload-artifact@v4
       with:
-         name: release-apk
+         name: debug-apk
          path: ${{ steps.debugApk.outputs.apkfile }}
+    - name: Releasing using Hub
+      uses: kyze8439690/action-release-releaseapk@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        APP_FOLDER: app
