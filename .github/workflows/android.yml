@@ -23,13 +23,16 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build Release APK
-      run: ./gradlew assembleRelease
+      run: ./gradlew assembleDebug
     - name: Get release file apk path
       id: releaseApk
       run: echo "apkfile=$(find app/build/outputs/apk/release/*.apk)" >> $GITHUB_OUTPUT
+    - name: Get debug file apk path
+      id: debugApk
+      run: echo "apkfile=$(find app/build/outputs/apk/debug/*.apk)" >> $GITHUB_OUTPUT
 
     - name: Upload Release Build to Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-         name: release-artifacts
-         path: ${{ steps.releaseApk.outputs.apkfile }}
+         name: release-apk
+         path: app/build/outputs/apk/debug/*.apk
